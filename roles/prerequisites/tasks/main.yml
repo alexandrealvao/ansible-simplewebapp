@@ -1,0 +1,49 @@
+---
+# tasks file for prerequisites
+- name: Install the 'Development tools' package group
+  yum:
+    name: "@Development tools"
+    state: present
+
+- name: Download
+  get_url: url=https://zlib.net/zlib-1.2.11.tar.gz dest=/tmp
+
+- name: Unarchive
+  unarchive: src=/tmp/zlib-1.2.11.tar.gz dest=/tmp/zlib-1.2.11 remote_src=yes
+
+- name: Upgrade zlib to latest version
+  shell: "{{ item }}"
+  with_items:
+    - "/tmp/zlib-1.2.11/configure --prefix=/usr"
+    - "/usr/bin/make"
+    - "/usr/bin/make install"
+
+# Stop firewall (ONLY FOR TESTING PURPOSE)
+- name: Stop firewall
+  service:
+    name: firewalld
+    state: stopped
+    enabled: no
+
+# tasks file for python
+- name: Install all required dependencies
+  yum:
+    name: "{{ item }}"
+    state: present
+  with_items:
+    - "epel-release"
+    - "python"
+    - "python-devel"
+
+- name: Install pip
+  yum:
+    name: "python-pip"
+    state: present
+
+- name: Install required Python libraries
+  pip:
+    name: "{{ item }}"
+    state: present
+  with_items:
+    - "flask"
+    - "flask-mysql"    

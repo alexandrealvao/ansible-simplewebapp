@@ -1,0 +1,4 @@
+server01 ansible_host=192.168.245.134 ansible_ssh_pass=Passw0rd
+server02 ansible_host=192.168.245.136 ansible_ssh_pass=Passw0rd
+server03 ansible_host=192.168.245.135 ansible_ssh_pass=Passw0rd
+server04 ansible_host=192.168.245.137 ansible_ssh_pass=Passw0rd
